@@ -1,0 +1,30 @@
+version: '3'
+
+x-var: &ENVIRONMENT
+  networks:
+    - internal
+  volumes:
+    - .aws:/root/.aws
+    - .gnupg:/root/.gnupg
+    - .password-store:/root/.password-store
+    - .awsstate:/root/.awsstate
+  environment:
+    - TZ=Asia/Tokyo
+    - AWS_VAULT_BACKEND=pass
+    - AWS_VAULT_PASS_PREFIX=aws-vault
+    - AWS_SESSION_TOKEN_TTL=3h
+    - GPG_TTY=/dev/pts/1
+  working_dir: /root
+  tty: true
+
+services:
+  aws-vault-terraform:
+    build: .
+    image: kaduhiro/aws-vault-terraform
+    container_name: aws-vault-terraform
+    hostname: aws-vault-terraform
+    <<: *ENVIRONMENT
+
+networks:
+  internal:
+    external: true

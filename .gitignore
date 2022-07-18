@@ -1,0 +1,5 @@
+.aws
+.gnupg
+.password-store
+.awsstate
+ec2/.history
