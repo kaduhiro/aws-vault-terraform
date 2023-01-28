@@ -18,16 +18,17 @@ RUN apt install -y \
     pass \
     unzip
 
-RUN curl -fsSL \
-    -o /usr/local/bin/aws-vault \
-    https://github.com/99designs/aws-vault/releases/download/v${AWSVAULT_VERSION}/aws-vault-linux-arm64 \
-    && chmod 755 /usr/local/bin/aws-vault
 
 RUN curl -fsSL \
     -o awscliv2.zip \
     https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m)-${AWSCLI_VERSION}.zip \
     && unzip awscliv2.zip \
     && aws/install
+
+RUN curl -fsSL \
+    -o /usr/local/bin/aws-vault \
+    https://github.com/99designs/aws-vault/releases/download/v${AWSVAULT_VERSION}/aws-vault-linux-$(uname -m | sed 's/x86_64/amd64/') \
+    && chmod 755 /usr/local/bin/aws-vault
 
 RUN apt clean \
     && rm -rf \
