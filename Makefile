@@ -1,7 +1,15 @@
 .ONESHELL:
 
-ENV_FILE := .env
-include $(ENV_FILE)
+ENVFILE := .env
+include $(ENVFILE)
+
+DOCKER_COMPOSE       = docker-compose --env-file $(ENVFILE) exec aws-vault-terraform
+DOCKER_COMPOSE_NOTTY = docker-compose --env-file $(ENVFILE) exec -T aws-vault-terraform
+AWS_VAULT            = $(DOCKER_COMPOSE) aws-vault exec $(AWS_USER)
+AWS_CLI              = $(AWS_VAULT) -- aws
+AWS_STATE_DIR       := .awsstate
+AWS_PROFILES_FILE   := $(AWS_STATE_DIR)/.profiles
+AWS_PROFILES         = $(shell $(DOCKER_COMPOSE) /bin/sh -c "cat $(AWS_PROFILES_FILE) | grep -v default | grep -v $(AWS_USER)")
 
 env: # view sub-process environments
 	$(AWS_VAULT) -- env
