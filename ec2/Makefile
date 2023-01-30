@@ -1,7 +1,7 @@
 .ONESHELL:
 
-ENV_FILE := ../.env
-include $(ENV_FILE)
+ENVFILE := ../.env
+include $(ENVFILE)
 
 HISTORY_FILE := .history
 
