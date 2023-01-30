@@ -1,8 +1,12 @@
 version: '3'
 
+networks:
+  internal:
+    # external: true
+
 x-var: &ENVIRONMENT
   networks:
-    - internal
+    internal:
   volumes:
     - .aws:/root/.aws
     - .gnupg:/root/.gnupg
